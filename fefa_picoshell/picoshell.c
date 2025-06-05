@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 07:17:25 by fefa              #+#    #+#             */
-/*   Updated: 2025/06/03 21:50:09 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:47:06 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,15 @@
 #include <stdio.h>
 #include <string.h>
 
-
 int	calculate_pipes(char **cmds[])
 {
-	int i = -1;
-	int j = 0;
+	int i = 0;
 
 	if (!cmds || !*cmds[0] || !cmds[0][0])
 		return (-1);
-	while (cmds[++i])
-	{
-		if (!strcmp(*cmds[i],"|"))
-			j++;
-	}
-	return (j);
+	while (cmds[i])
+		i++;
+	return (i);
 }
 
 void	close_fds(int *fd, int tmp_fd)
@@ -84,7 +79,7 @@ int	picoshell(char **cmds[])
 	n = calculate_pipes(cmds);
 	if (n == -1)
 		return (0);
-	if (n == 0)
+	if (n == 1)
 	{
 		execvp(cmds[0][0], cmds[0]);
 		return (1);
